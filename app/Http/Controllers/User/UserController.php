@@ -44,4 +44,8 @@ return redirect()->back()->with('success', "You have registered successfully!");
             return redirect()->back()->with('error', "Login failed!");
         }
     }
+    public function logout(){
+        Auth::guard('web')->logout();
+        return redirect('/');
+    }
 }
