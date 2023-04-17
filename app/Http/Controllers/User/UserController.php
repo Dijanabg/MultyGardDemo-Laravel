@@ -36,7 +36,7 @@ return redirect()->back()->with('success', "You have registered successfully!");
             'password'=>'required|min:6|max:15'
         ]);
         
-        $check=$request->only('email','password');
+        $check = $request->only('email','password');
         
         if(Auth::guard('web')->attempt($check)){
             return redirect()->route('user.home')->with('success', "Welcome to dashboard");

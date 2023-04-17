@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +29,21 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::view('/login', 'dashboard.user.login')->name('login');
         Route::view('/register', 'dashboard.user.register')->name('register');
         Route::post('/create', [UserController::class, 'create'])->name('create');
-        Route::post('/dologin', [UserController::class, 'dologin'])->name('dologin');
+        Route::post('/dologin',[UserController::class, 'dologin'])->name('dologin');
     });
     Route::middleware(['auth:web'])->group(function(){
         Route::view('/home', 'dashboard.user.home')->name('home');
-        Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+        Route::get('/logout',[UserController::class, 'logout'])->name('logout');
+    });
+});
+
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::middleware(['guest:admin'])->group(function(){
+        Route::view('/login', 'dashboard.admin.login')->name('admin.login');
+        Route::post('/dologin',[AdminController::class,'dologin'])->name('admin.dologin');
+    });
+    Route::middleware(['auth:admin'])->group(function(){
+        Route::view('/home', 'dashboard.admin.home')->name('home');
+        Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
     });
 });
